@@ -35,6 +35,7 @@
     <HeaderNavItem href="/removeCategory" text="Xoa Mon An" />
     <HeaderNavItem href="/addBackCategory" text="Them Lai Mon An" />
     <HeaderNavItem href="/getRemovedCategory" text="Mon An Da Xoa" />
+    <HeaderNavItem href="/calendar" text="Calendar" />
   </HeaderNav>
 </Header>
 
@@ -50,6 +51,7 @@
     <SideNavLink href="/removeCategory" text="Xoa Mon An" />
     <SideNavLink href="/addBackCategory" text="Them Lai Mon An" />
     <SideNavLink href="/getRemovedCategory" text="Mon An Da Xoa" />
+    <SideNavLink href="/calendar" text="Calendar" />
   </SideNavItems>
 </SideNav>
 

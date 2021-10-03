@@ -2,7 +2,7 @@
   import { Button, TextArea } from "carbon-components-svelte";
   async function sendAnnouncement() {
     console.log("got clicked")
-    const res = await fetch("http://localhost:4242/send-announcement", {
+    const res = await fetch("https://burin-eyelash.herokuapp.com/send-announcement", {
       headers: {
         "Content-Type": "application/json"
       },

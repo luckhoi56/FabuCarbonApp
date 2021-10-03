@@ -20,3 +20,10 @@ Basically webdir has to the same folder with npm run build
 
 #### to build and run for web
 1.run "npm run dev"
+
+
+#good tutorials for json into html
+https://www.geeksforgeeks.org/how-to-convert-json-data-to-a-html-table-using-javascript-jquery/
+
+#use svelte to create a csv table:
+https://dev.to/karkranikhil/csv-generation-from-json-in-svelte-5cgf
