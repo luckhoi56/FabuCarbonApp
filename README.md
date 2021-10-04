@@ -27,3 +27,7 @@ https://www.geeksforgeeks.org/how-to-convert-json-data-to-a-html-table-using-jav
 
 #use svelte to create a csv table:
 https://dev.to/karkranikhil/csv-generation-from-json-in-svelte-5cgf
+
+
+#use groupBy
+https://stackoverflow.com/questions/40774697/how-to-group-an-array-of-objects-by-key
