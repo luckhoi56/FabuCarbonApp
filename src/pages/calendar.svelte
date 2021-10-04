@@ -13,7 +13,8 @@
     console.log(grouped)
 	});
 
-  console.log(spacetime)
+  let d = spacetime.now('America/Los_Angeles')
+  console.log(d.format('nice'))
   </script>
   
   <DataTable
