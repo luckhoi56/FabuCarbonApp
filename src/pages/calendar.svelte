@@ -26,10 +26,10 @@
   }
 
   const compare_time = (a,b) => {
-    var date_a = spacetime(`March 1 2012 ${a}`, 'America/Los_Angeles')
-    var date_b = spacetime(`March 1 2012 ${b}`, 'America/Los_Angeles')
+    console.log(a.Time)
+    var date_a = spacetime(`March 1 2012 ${a.Time}`, 'America/Los_Angeles')
+    var date_b = spacetime(`March 1 2012 ${b.Time}`, 'America/Los_Angeles')
     
-    console.log(date_a)
     if(date_a.isBefore(date_b)){
       return -1
     }
