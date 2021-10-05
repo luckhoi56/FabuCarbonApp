@@ -37,3 +37,6 @@ https://github.com/spencermountain/spacetime
 
 #sort function
 https://stackoverflow.com/questions/6567941/how-does-sort-function-work-in-javascript-along-with-compare-function
+
+#sort based on property:
+https://stackoverflow.com/questions/7889006/sorting-arrays-in-javascript-by-object-key-value

@@ -3,6 +3,7 @@
     import { onMount } from "svelte";
     import spacetime from 'spacetime'
     import{_} from 'lodash'
+  
     var m_sorted_date = ''
     var appointments = ''
     async function getAppoinments() {
@@ -22,6 +23,22 @@
     }
     else
       return 1
+  }
+
+  const compare_time = (a,b) => {
+    var date_a = spacetime(`March 1 2012 ${a}`, 'America/Los_Angeles')
+    var date_b = spacetime(`March 1 2012 ${b}`, 'America/Los_Angeles')
+    
+    console.log(date_a)
+    if(date_a.isBefore(date_b)){
+      return -1
+    }
+    else if(date_a.isSame(date_b)){
+      return 0
+    }
+    else
+      return 1
+
   }
   const process = (m_object) =>{
     
@@ -49,12 +66,15 @@
     process(appointments)
     m_sorted_date = Object.keys(appointments)
     m_sorted_date.sort(compare_date)
-    console.log(m_sorted_date)
+    
+
+    for(let value of Object.values(appointments)){
+      value.sort(compare_time)
+    }
 
 	});
 
   let d = spacetime.now('America/Los_Angeles')
-  console.log(d.format('nice'))
   </script>
   
   {#each Object.keys(appointments) as key}
