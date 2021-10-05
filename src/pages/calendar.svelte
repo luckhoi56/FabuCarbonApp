@@ -10,16 +10,18 @@
     
   }
   onMount(async () => {
-		appointments = await getAppoinments()
-    const grouped = _.groupBy(appointments, appointment => appointment.date);
-    console.log(grouped)
+		let temps = await getAppoinments()
+    appointments = _.groupBy(temps, temp => temp.date);
+    console.log(Object.keys(appointments))
+
 	});
 
   let d = spacetime.now('America/Los_Angeles')
   console.log(d.format('nice'))
   </script>
   
-  {#each appointments as appointment}
+  {#each Object.keys(appointments) as key}
+  <h1>{key}</h1>
   <DataTable
     headers={[{ key: 'Customer', value: 'Customer' }, { key: 'technician', value: 'Technician' }, { key: 'time', value: 'Time' }, { key: 'rule', value: 'Rule' }]}
     rows={[{ id: 'a', name: 'Load Balancer 3', protocol: 'HTTP', port: 3000, rule: 'Round robin' }]}

@@ -34,3 +34,6 @@ https://stackoverflow.com/questions/40774697/how-to-group-an-array-of-objects-by
 
 #use spacetime instead of moment
 https://github.com/spencermountain/spacetime
+
+#sort function
+https://stackoverflow.com/questions/6567941/how-does-sort-function-work-in-javascript-along-with-compare-function
