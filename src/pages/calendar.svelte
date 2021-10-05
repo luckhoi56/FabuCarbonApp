@@ -16,13 +16,14 @@
        
       let m_array = []
       for(let i = 0; i < values.length; i++){
+        console.log(values[i])
         let temp= {
           id:i,
-          Customer: values[i].firstName,
+          Customer: values[i].firstName + " " + values[i].lastName,
           Phone: values[i].phoneNumbers,
+          Time: values[i].time,
           Service: values[i].service,
-          Service: values[i].service,
-          technician: values[i].technician,
+          Technician: values[i].technician,
         }
         m_array.push(temp)
       }
@@ -45,8 +46,14 @@
   {#each Object.keys(appointments) as key}
   <h1>{key}</h1>
   <DataTable
-    headers={[{ key: 'Customer', value: 'Customer' },{ key: 'Phone', value: 'Phone' },{ key: 'time', value: 'time' },{ key: 'service', value: 'service' },{ key: 'technician', value: 'technician' }]}
-    rows={[{ id: 'a', name: 'Load Balancer 3', protocol: 'HTTP', port: 3000, rule: 'Round robin' }]}
+    headers={[
+      { key: 'Time', value: 'Time' },
+      { key: 'Technician', value: 'Technician' },
+      { key: 'Service', value: 'Service' },
+      { key: 'Customer', value: 'Customer' },
+      { key: 'Phone', value: 'Phone' } 
+      ]}
+    rows={appointments[key]}
   />
   {/each}
 
