@@ -77,7 +77,7 @@
   let d = spacetime.now('America/Los_Angeles')
   </script>
   
-  {#each Object.keys(appointments) as key}
+  {#each m_sorted_date as key}
   <h1>{key}</h1>
   <DataTable
     headers={[
