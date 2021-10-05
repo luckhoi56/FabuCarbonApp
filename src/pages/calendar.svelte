@@ -39,6 +39,7 @@
       return 1
 
   }
+  //process give a new array
   const process = (m_object) =>{
     
      for (let [key,values] of Object.entries(m_object)){
@@ -59,13 +60,27 @@
     }
   }
 
+  const filterPastDate = (dates) =>{
+
+    let m_current_date = spacetime.now('America/Los_Angeles')
+    dates.filter(date=>{
+      let m_date = spacetime(date+" " + m_current_date.time()) //make them the same time so you can only compare date
+      if(m_date.isAfter(m_current_date) || m_date.isSame(m_current_date,'date')){
+        console.log(m_date.date())
+        console.log('bitch')
+        return date
+      }
+        
+    })
+  
+  }
   onMount(async () => {
 		let temps = await getAppoinments()
     appointments = _.groupBy(temps, temp => temp.date);
     process(appointments)
     m_sorted_date = Object.keys(appointments)
     m_sorted_date.sort(compare_date)
-    
+    filterPastDate(m_sorted_date)
 
     for(let value of Object.values(appointments)){
       value.sort(compare_time)
@@ -73,11 +88,11 @@
 
 	});
 
-  let d = spacetime.now('America/Los_Angeles')
+  let d = spacetime.now('America/Los_Angeles') 
   </script>
   
   {#each m_sorted_date as key}
-  <Tag>{key}</Tag>
+  <Tag type="high-contrast">{key}</Tag>
   <br>
   <DataTable
     headers={[
