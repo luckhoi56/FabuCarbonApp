@@ -3,6 +3,7 @@
     import { onMount } from "svelte";
     import spacetime from 'spacetime'
     import{_} from 'lodash'
+    var m_sorted_date = ''
     var appointments = ''
     async function getAppoinments() {
     const res = await fetch("https://burineyelash.s3.us-west-1.amazonaws.com/databaseFile/data.json")
@@ -10,13 +11,24 @@
     return res.json()
     
   }
+  const compare_date = (a,b) =>{
+    let date_a = spacetime(a)
+    let date_b = spacetime(b)
+    if(date_a.isBefore(date_b)){
+      return -1
+    }
+    else if(date_a.isSame(date_b)){
+      return 0
+    }
+    else
+      return 1
+  }
   const process = (m_object) =>{
     
      for (let [key,values] of Object.entries(m_object)){
        
       let m_array = []
       for(let i = 0; i < values.length; i++){
-        console.log(values[i])
         let temp= {
           id:i,
           Customer: values[i].firstName + " " + values[i].lastName,
@@ -29,13 +41,15 @@
       }
       m_object[key] = m_array
     }
-    return m_object
   }
 
   onMount(async () => {
 		let temps = await getAppoinments()
     appointments = _.groupBy(temps, temp => temp.date);
-    console.log(process(appointments))
+    process(appointments)
+    m_sorted_date = Object.keys(appointments)
+    m_sorted_date.sort(compare_date)
+    console.log(m_sorted_date)
 
 	});
 
