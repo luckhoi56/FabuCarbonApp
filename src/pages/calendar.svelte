@@ -1,5 +1,5 @@
 <script>
-    import { DataTable } from "carbon-components-svelte";
+    import { DataTable,Tag } from "carbon-components-svelte";
     import { onMount } from "svelte";
     import spacetime from 'spacetime'
     import{_} from 'lodash'
@@ -77,7 +77,8 @@
   </script>
   
   {#each m_sorted_date as key}
-  <h1>{key}</h1>
+  <Tag>{key}</Tag>
+  <br>
   <DataTable
     headers={[
       { key: 'Time', value: 'Time' },
@@ -88,6 +89,9 @@
       ]}
     rows={appointments[key]}
   />
+  <br>
+  <br>
+  <br>
   {/each}
 
 
