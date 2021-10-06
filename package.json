@@ -5,7 +5,7 @@
     "dev": "run-p dev:*",
     "dev:rollup": "rollup -cw",
     "dev:routify": "routify",
-    "build": "routify -b && rollup -c && routify export"
+    "build": "run-s build:*"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
