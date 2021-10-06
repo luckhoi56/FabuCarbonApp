@@ -7,7 +7,7 @@
     var m_sorted_date = ''
     var appointments = ''
     async function getAppoinments() {
-    const res = await fetch("https://burineyelash.s3.us-west-1.amazonaws.com/databaseFile/data.json")
+    const res = await fetch("https://burin-eyelash.herokuapp.com/send-appointment-to-app")
     
     return res.json()
     
