@@ -1,82 +1,115 @@
 <script>
-  import YumeCard from "../components/YumeCard.svelte";
+  import { DataTable,Tag } from "carbon-components-svelte";
+  import { onMount } from "svelte";
+  import spacetime from 'spacetime'
+  import{_} from 'lodash'
 
-  export let name;
-  let m_newest_order = ""
-  setInterval(function(){
-    onButtonTap()
-}, 10000) //every 10 seconds auto run
-  let m_filtered_orders = [];
-  async function onButtonTap() {
-    const response = await fetch("https://yume-angular.herokuapp.com/getOrder");
-
-    let order_queue = await response.json();
-
-    let filtered_order_queue = order_queue;
-    for (let order of filtered_order_queue) {
-      order.content = filterOrder(order.content);
-	}
-	m_filtered_orders = filtered_order_queue
-  //console.log()
-  if (m_filtered_orders.length > 0 && m_newest_order ==""){
-    m_newest_order = m_filtered_orders[m_filtered_orders.length -1].orderNumber
-    document.querySelector("audio").play();
-    console.log("tap first received")
-    document.getElementsByClassName("pause")[0].style.backgroundColor = 'lightgreen'
-  }
-  if(m_newest_order != "" && m_newest_order != m_filtered_orders[m_filtered_orders.length -1].orderNumber){ // new order received and the newest is not blank
-    document.querySelector("audio").play();
-    m_newest_order = m_filtered_orders[m_filtered_orders.length -1].orderNumber
-    console.log("tap inside")
-    console.log(m_newest_order)
-    document.getElementsByClassName("pause")[0].style.backgroundColor = 'lightgreen'
-  }
+  var m_sorted_date = ''
+  var appointments = ''
+  async function getAppoinments() {
+  const res = await fetch("https://burin-eyelash.herokuapp.com/send-appointment-to-app")
   
+  return res.json()
   
-  
+}
+const compare_date = (a,b) =>{
+  let date_a = spacetime(a)
+  let date_b = spacetime(b)
+  if(date_a.isBefore(date_b)){
+    return -1
   }
+  else if(date_a.isSame(date_b)){
+    return 0
+  }
+  else
+    return 1
+}
 
-  function filterOrder(orders_queue) {
-    let m_items = [];
+const compare_time = (a,b) => {
+  var date_a = spacetime(`March 1 2012 ${a.Time}`, 'America/Los_Angeles')
+  var date_b = spacetime(`March 1 2012 ${b.Time}`, 'America/Los_Angeles')
+  
+  if(date_a.isBefore(date_b)){
+    return -1
+  }
+  else if(date_a.isSame(date_b)){
+    return 0
+  }
+  else
+    return 1
 
-    for (let item of orders_queue) {
-      if (item.Quantity > 0) m_items.push(item);
+}
+//process give a new array
+const process = (m_object) =>{
+  
+   for (let [key,values] of Object.entries(m_object)){
+     
+    let m_array = []
+    for(let i = 0; i < values.length; i++){
+      let temp= {
+        id:i,
+        Customer: values[i].firstName + " " + values[i].lastName,
+        Phone: values[i].phoneNumbers,
+        Time: values[i].time,
+        Service: values[i].service,
+        Technician: values[i].technician,
+      }
+      m_array.push(temp)
     }
-    return m_items;
+    m_object[key] = m_array
   }
-  //sound
-  
+}
 
-function playAudio() { 
-  console.log("play is clicked")
-   document.querySelector("audio").play(); 
-} 
+const filterPastDate = (dates) =>{
 
-function pauseAudio() { 
-   document.querySelector("audio").pause();
-   document.getElementsByClassName("pause")[0].style.backgroundColor="" 
-} 
+  let m_current_date = spacetime.now('America/Los_Angeles')
+  let temp = dates.filter(date=>{
+    let m_date = spacetime(date)
+    if(m_date.isAfter(m_current_date) || m_date.isSame(m_current_date,'date')){
+      console.log(m_date.date())
+      console.log('bitch')
+      return date
+    }
+      
+  })
+  return temp
+}
+onMount(async () => {
+  let temps = await getAppoinments()
+  appointments = _.groupBy(temps, temp => temp.date);
+  process(appointments)
+  m_sorted_date = Object.keys(appointments)
+  m_sorted_date.sort(compare_date)
+  m_sorted_date = filterPastDate(m_sorted_date)
+
+  for(let value of Object.values(appointments)){
+    value.sort(compare_time)
+  }
+
+});
+
+let d = spacetime.now('America/Los_Angeles') 
 </script>
 
-<style>
+{#each m_sorted_date as key}
+<Tag type="high-contrast">{key}</Tag>
+<br>
+<DataTable
+  headers={[
+    { key: 'Time', value: 'Time' },
+    { key: 'Technician', value: 'Technician' },
+    { key: 'Service', value: 'Service' },
+    { key: 'Customer', value: 'Customer' },
+    { key: 'Phone', value: 'Phone' } 
+    ]}
+  rows={appointments[key]}
+/>
+<br>
+<br>
+<br>
+{/each}
 
-  
-</style>
 
-<main>
-  <h1>Order cua Khach Hang!</h1>
-  <button text="tap me now" on:click={onButtonTap}>Tap Me</button>
-  <button class = "pause" on:click={pauseAudio} type="button">Pause Audio</button>
-  {#each m_filtered_orders as order}
-    <YumeCard m_items={order.content} order_number={order.orderNumber} customer_name={order.customerName}/>
-    
-  {/each}
 
-</main>
 
-<audio id="myAudio">
-  
-  <source src="https://yumemenu.s3-us-west-1.amazonaws.com/sound/yukaay.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
 
