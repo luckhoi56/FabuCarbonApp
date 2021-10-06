@@ -66,8 +66,6 @@ const filterPastDate = (dates) =>{
   let temp = dates.filter(date=>{
     let m_date = spacetime(date)
     if(m_date.isAfter(m_current_date) || m_date.isSame(m_current_date,'date')){
-      console.log(m_date.date())
-      console.log('bitch')
       return date
     }
       
